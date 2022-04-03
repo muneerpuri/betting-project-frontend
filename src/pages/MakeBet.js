@@ -65,6 +65,7 @@ function MakeBet() {
         amount: gameData.attributes.amount,
         betType: gameData.attributes.betType,
         betNo: value,
+        status: "WAITING"
       },
     });
 
