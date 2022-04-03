@@ -125,7 +125,8 @@ function MakeBet() {
                 <Card.Title>Amount: {gameData.attributes.amount}</Card.Title>
                 <Card.Text>{gameData.attributes.description}</Card.Text>
                 <Container fluid>
-                  <p className="fw-normal">
+                  <p 
+                      style={{ padding: "5px", margin: "5px" }} className="fw-normal">
                     Select bet number
                     <select
                       style={{ padding: "5px", margin: "5px" }}
