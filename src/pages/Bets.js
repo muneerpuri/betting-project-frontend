@@ -40,7 +40,7 @@ function Bets() {
         <td>{el.attributes.betNo}</td>
         <td>{el.attributes.betType}</td>
         <td>{el.attributes.amount}</td>
-        <td className={el.attributes.status==="WAITING"?'text-warning':el.attributes.status==="CANCELLED"?'text-danger':el.attributes.status==="WIN"?'text-success':''}>{el.attributes.status}</td>
+        <td className={el.attributes.status==="WAITING"?'text-warning':el.attributes.status==="CANCELLED"?'text-danger':el.attributes.status==="WIN"?'text-success':el.attributes.status==="LOSS"?'text-info':""}>{el.attributes.status}</td>
       </tr> 
 
      })}
