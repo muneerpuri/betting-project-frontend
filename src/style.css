@@ -1,0 +1,27 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+html{
+
+    background-color: lightgray;
+}
+
+.page-link{
+    background: black !important;
+    color: white  !important;
+}
+.page-item{
+    color: white  !important;
+
+    border-color: black !important;
+}
+
+.page-item.active .page-link {
+    border-color: gray !important;
+}
+
+tr{
+    cursor: pointer;
+}

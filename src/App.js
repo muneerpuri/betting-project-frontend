@@ -1,31 +1,26 @@
-import Home from "./pages/home/Home";
-import Login from "./pages/login/Login";
-import Profile from "./pages/profile/Profile";
-import Register from "./pages/register/Register";
+import Home from "./pages/Home";
+import Navbar from './components/Navbar'
+import Bets from "./pages/Bets";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
+  // Redirect,
 } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "./context/AuthContext";
-import Messenger from "./pages/messenger/Messenger";
-import Topbar from "./components/topbar/Topbar";
-import React from 'react'
-import MobileSearchBox from "./components/MobileSearchBox/MobileSearchBox";
+import './style.css'
+// import { useContext } from "react";
+// import { AuthContext } from "./context/AuthContext";
 
 
 function App() {
-  const { user } = useContext(AuthContext);
-  const { showSearchMenu } = React.useContext(AuthContext);
+  // const { user } = useContext(AuthContext);
 
 
   function ComponentWithNavbar(props){
     return(
       <>
-      <Topbar />
-      {showSearchMenu ? <MobileSearchBox />:<props.component/>}
+      <Navbar />
+      <props.component/>
   
       </>
     )
@@ -37,24 +32,24 @@ function App() {
       <Switch>
         <Route exact path="/"  render={(props) => {
           return (
-            user ? <ComponentWithNavbar  component={Home} {...props}/> : <Register />
+            <ComponentWithNavbar component={Home} {...props}/>
           );
         }}/>
          
-        <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
+        {/* <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
         <Route path="/register">
           {user ? <Redirect to="/" /> : <Register />}
-        </Route>
-        <Route path="/messenger" render={(props) => {
+        </Route> */}
+        <Route path="/bets" render={(props) => {
           return (
-            user ?  <ComponentWithNavbar  component={Messenger} {...props}/> : <Redirect to="/" />
+            <ComponentWithNavbar  component={Bets} {...props}/> 
           );
         }}/>
-        <Route path="/profile/:username" render={(props) => {
+        {/* <Route path="/profile/:username" render={(props) => {
           return (
             user ?  <ComponentWithNavbar  component={Profile} {...props}/> : <Login />
           );
-        }}/>
+        }}/> */}
       </Switch>
     </Router>
   );
