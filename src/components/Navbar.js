@@ -8,7 +8,7 @@ function TopBar() {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
   <Container>
-    <Navbar.Brand href="#home">Game</Navbar.Brand>
+  <NavLink className="nav-link text-light" activeClassName="active" to="/">Game</NavLink>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="ms-auto">

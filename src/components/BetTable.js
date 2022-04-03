@@ -1,10 +1,13 @@
 import React from "react";
 
+import {  useHistory } from "react-router";
 import { Table, Pagination, Container ,Spinner} from "react-bootstrap";
 function BetTable() {
+  const history = useHistory();
   const [activePageTab, setActivePageTab] = React.useState(1);
   const [content,setContent] = React.useState([])
   const [loading,setLoading] = React.useState(false)
+  const itemsPerPage = 10;
 
   React.useEffect(()=>{
     setLoading(true)
@@ -12,14 +15,21 @@ function BetTable() {
       .then(res=>res.json())
       .then(res=>{
           console.log(res.data)
-        setContent(res.data)
+        setContent(res.data.sort(function(a, b) {
+          var dateA = new Date(a.attributes.gameTime);
+          var dateB = new Date(b.attributes.gameTime);
+          return dateB - dateA
+      }))
         setLoading(false)})
       .catch(e=>{setLoading(false)})
 
   },[])
+  const indexOfLastTodo = activePageTab * itemsPerPage;
+    const indexOfFirstTodo = indexOfLastTodo - itemsPerPage;
+    const activeData = content.slice(indexOfFirstTodo, indexOfLastTodo);
 
   let items = [];
-  for (let number = 1; number <= 5; number++) {
+  for (let number = 1; number <=Math.ceil(content.length / itemsPerPage); number++) {
     items.push(
       <Pagination.Item
         style={{ backrgound: "black !important" }}
@@ -51,17 +61,17 @@ function BetTable() {
         <tbody>
          {content.length>0 &&  
          
-         content.map((el,index)=>{
+         activeData.map((el,index)=>{
            let date= new Date(el.attributes.gameTime)
-           return <tr className="pe-auto">
+           return  <tr onClick={()=>history.push(`/makebet/${el.id}`)} className="pe-auto">
             <td>{index+1}</td>
             <td>{el.attributes.game}</td>
             <td>{el.attributes.description}</td>
             <td>{el.attributes.betType}</td>
             <td>{el.attributes.amount}</td>
-            <td>{date.toUTCString()}</td>
+            <td>{date.toLocaleString()}</td>
             <td>{el.attributes.status}</td>
-          </tr>
+          </tr> 
 
          })}
           

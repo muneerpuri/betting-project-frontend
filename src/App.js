@@ -1,12 +1,16 @@
 import Home from "./pages/Home";
 import Navbar from './components/Navbar'
 import Bets from "./pages/Bets";
+import MakeBet from "./pages/MakeBet";
+import NotFound from './pages/NotFound';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  // Redirect,
+  Redirect,
 } from "react-router-dom";
+
+import { useToasts } from "react-toast-notifications";
 import './style.css'
 // import { useContext } from "react";
 // import { AuthContext } from "./context/AuthContext";
@@ -15,6 +19,7 @@ import './style.css'
 function App() {
   // const { user } = useContext(AuthContext);
 
+  const { addToast } = useToasts();
 
   function ComponentWithNavbar(props){
     return(
@@ -30,7 +35,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/"  render={(props) => {
+        <Route exact path="/" render={(props) => {
           return (
             <ComponentWithNavbar component={Home} {...props}/>
           );
@@ -40,9 +45,18 @@ function App() {
         <Route path="/register">
           {user ? <Redirect to="/" /> : <Register />}
         </Route> */}
-        <Route path="/bets" render={(props) => {
+        <Route path="/bets" exact render={(props) => {
+          let user = JSON.parse(localStorage.getItem("user"));
+          if(user) {
+            return <ComponentWithNavbar  component={Bets} {...props}/> 
+          }else{
+            addToast("Please make a bet!", { appearance: "error" });
+           return <Redirect to="/" />
+          }
+        }}/>
+        <Route path="/makebet/:id" exact render={(props) => {
           return (
-            <ComponentWithNavbar  component={Bets} {...props}/> 
+            <ComponentWithNavbar  component={MakeBet} {...props}/> 
           );
         }}/>
         {/* <Route path="/profile/:username" render={(props) => {
@@ -50,6 +64,7 @@ function App() {
             user ?  <ComponentWithNavbar  component={Profile} {...props}/> : <Login />
           );
         }}/> */}
+        <Route component={NotFound} />
       </Switch>
     </Router>
   );
