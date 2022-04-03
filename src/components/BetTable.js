@@ -70,7 +70,7 @@ function BetTable() {
             <td>{el.attributes.betType}</td>
             <td>{el.attributes.amount}</td>
             <td>{date.toLocaleString()}</td>
-            <td>{el.attributes.status}</td>
+            <td className={el.attributes.status==="WAITING"?'text-warning':el.attributes.status==="CANCELLED"?'text-danger':el.attributes.status==="WON"?'text-success':''}>{el.attributes.status}</td>
           </tr> 
 
          })}
