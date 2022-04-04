@@ -1,5 +1,4 @@
 import React from "react";
-
 import {  useHistory } from "react-router";
 import { Table, Pagination, Container ,Spinner} from "react-bootstrap";
 function BetTable() {
@@ -8,7 +7,7 @@ function BetTable() {
   const [content,setContent] = React.useState([])
   const [loading,setLoading] = React.useState(false)
   const itemsPerPage = 10;
-
+  let timeZoneNow = Intl.DateTimeFormat().resolvedOptions().timeZone;
   React.useEffect(()=>{
     setLoading(true)
       fetch(process.env.REACT_APP_BACKEND+"/games")
@@ -18,7 +17,7 @@ function BetTable() {
         setContent(res.data.sort(function(a, b) {
           var dateA = new Date(a.attributes.gameTime);
           var dateB = new Date(b.attributes.gameTime);
-          return dateB - dateA
+          return dateA - dateB
       }))
         setLoading(false)})
       .catch(e=>{setLoading(false)})
@@ -45,8 +44,9 @@ function BetTable() {
   
   return (
     <Container fluid bg="dark" className="p-2 pagination-bg-dark bg-dark ">
-
-     {loading ?<Container className=" mt-5 mb-5 d-flex justify-content-center align-items-center"> <Spinner animation="border" variant="light" /></Container>: <><Table className="w-100" responsive striped bordered hover variant="dark">
+     {loading ?<Container className=" mt-5 mb-5 d-flex justify-content-center align-items-center"> <Spinner animation="border" variant="light" /></Container>: <>
+     {/* <p className="fw-normal text-white">{timeZoneNow}</p> */}
+     <Table className="w-100" responsive striped bordered hover variant="dark">
         <thead>
           <tr>
             <th>#</th>
@@ -63,14 +63,23 @@ function BetTable() {
          
          activeData.map((el,index)=>{
            let date= new Date(el.attributes.gameTime)
+        //    console.log(date)
+          
+        //    let intlDateObj = new Intl.DateTimeFormat('en-US', {
+        //     timeZone: timeZoneNow
+        // });
+        // let Time = intlDateObj.format(date);
            return  <tr onClick={()=>history.push(`/makebet/${el.id}`)} className="pe-auto">
             <td>{index+1}</td>
             <td>{el.attributes.game}</td>
             <td>{el.attributes.description}</td>
             <td>{el.attributes.betType}</td>
             <td>{el.attributes.amount}</td>
-            <td>{date.toLocaleString()}</td>
-            <td className={el.attributes.status==="WAITING"?'text-warning':el.attributes.status==="CANCELLED"?'text-danger':el.attributes.status==="WIN"?'text-success':el.attributes.status==="LOSS"?'text-info':""}>{el.attributes.status}</td>
+            <td> { date.toLocaleString("en-US", {
+            timeZone: timeZoneNow 
+        })}
+            </td>
+            <td className={el.attributes.status==="UPCOMING"?'text-warning':el.attributes.status==="PROCESSED"?'text-success':el.attributes.status==="LOSS"?'text-info':""}>{el.attributes.status}</td>
           </tr> 
 
          })}
