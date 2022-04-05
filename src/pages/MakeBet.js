@@ -60,7 +60,7 @@ function MakeBet() {
     var raw = JSON.stringify({
       data: {
         game: [gameId],
-        userId: JSON.parse(localStorage.getItem("user")),
+        userId: JSON.parse(localStorage.getItem("userId")),
         amount: gameData.attributes.amount,
         betType: gameData.attributes.betType,
         betNo: value,
