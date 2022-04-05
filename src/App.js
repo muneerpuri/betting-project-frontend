@@ -46,7 +46,7 @@ function App() {
           {user ? <Redirect to="/" /> : <Register />}
         </Route> */}
         <Route path="/bets" exact render={(props) => {
-          let user = JSON.parse(localStorage.getItem("userId"));
+          let user = localStorage.getItem("userId");
           if(user) {
             return <ComponentWithNavbar  component={Bets} {...props}/> 
           }else{
