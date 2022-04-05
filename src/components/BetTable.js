@@ -1,11 +1,13 @@
 import React from "react";
 import {  useHistory } from "react-router";
-import { Table, Pagination, Container ,Spinner} from "react-bootstrap";
+import { Table,Tabs,Tab, Pagination, Container ,Spinner} from "react-bootstrap";
 function BetTable() {
   const history = useHistory();
   const [activePageTab, setActivePageTab] = React.useState(1);
+  const [activePageTabUpcoming, setActivePageTabUpcoming] = React.useState(1);
   const [content,setContent] = React.useState([])
   const [loading,setLoading] = React.useState(false)
+  const [upcomingData,setUpcomingData] = React.useState([])
   const itemsPerPage = 10;
   let timeZoneNow = Intl.DateTimeFormat().resolvedOptions().timeZone;
   React.useEffect(()=>{
@@ -21,6 +23,7 @@ function BetTable() {
         })
         let upcomingArr = dateSortedArray.filter((el)=>el.attributes.status === "UPCOMING")
         let processedArr = dateSortedArray.filter((el)=>el.attributes.status === "PROCESSED")
+        setUpcomingData(upcomingArr)
         setContent(upcomingArr.concat(processedArr))
         setLoading(false)})
       .catch(e=>{setLoading(false)})
@@ -30,6 +33,24 @@ function BetTable() {
     const indexOfFirstTodo = indexOfLastTodo - itemsPerPage;
     const activeData = content.slice(indexOfFirstTodo, indexOfLastTodo);
 
+    const indexOfLastTodoU = activePageTabUpcoming * itemsPerPage;
+    const indexOfFirstTodoU = indexOfLastTodoU - itemsPerPage;
+    const activeDataU = upcomingData.slice(indexOfFirstTodoU, indexOfLastTodoU);
+
+  let itemsU = [];
+  for (let number = 1; number <=Math.ceil(upcomingData.length / itemsPerPage); number++) {
+    itemsU.push(
+      <Pagination.Item
+        style={{ backrgound: "black !important" }}
+        bg-dar
+        onClick={() => setActivePageTabUpcoming(number)}
+        key={number}
+        active={activePageTabUpcoming === number}
+      >
+        {number}
+      </Pagination.Item>
+    );
+  }
   let items = [];
   for (let number = 1; number <=Math.ceil(content.length / itemsPerPage); number++) {
     items.push(
@@ -47,7 +68,67 @@ function BetTable() {
   
   return (
     <Container fluid bg="dark" className="p-2 pagination-bg-dark bg-dark ">
-     {loading ?<Container className=" mt-5 mb-5 d-flex justify-content-center align-items-center"> <Spinner animation="border" variant="light" /></Container>: <>
+     {loading ?<Container className=" mt-5 mb-5 d-flex justify-content-center align-items-center"> <Spinner animation="border" variant="light" /></Container>:
+     
+     <Tabs  defaultActiveKey="home" id="uncontrolled-tab-example" className="mb-3 text-white">
+  <Tab className="text-white" eventKey="home" title="Upcoming">
+  <>
+     {/* <p className="fw-normal text-white">{timeZoneNow}</p> */}
+     <Table className="w-100" responsive striped bordered hover variant="dark">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>GAME</th>
+            <th>DESCRIPTION</th>
+            <th>BET TYPE</th>
+            <th>AMOUNT</th>
+            <th>TIME</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+         {content.length>0 &&  
+         
+         activeDataU.map((el,index)=>{
+           let date= new Date(el.attributes.gameTime)
+        //    console.log(date)
+          
+        //    let intlDateObj = new Intl.DateTimeFormat('en-US', {
+        //     timeZone: timeZoneNow
+        // });
+        // let Time = intlDateObj.format(date);
+           return  <tr onClick={()=>history.push(`/makebet/${el.id}`)} className="pe-auto">
+            <td>{index+1}</td>
+            <td>{el.attributes.game}</td>
+            <td>{el.attributes.description}</td>
+            <td>{el.attributes.betType}</td>
+            <td>{el.attributes.amount}</td>
+            <td> { date.toLocaleString("en-US", {
+            timeZone: timeZoneNow 
+        })}
+            </td>
+            <td className={el.attributes.status==="UPCOMING"?'text-warning':el.attributes.status==="PROCESSED"?'text-success':el.attributes.status==="LOSS"?'text-info':""}>{el.attributes.status}</td>
+          </tr> 
+
+         })}
+          
+        </tbody>
+      </Table>
+      <Container
+        bg="dark"
+        className="p-2 pagination-bg-dark bg-dark text-secondary d-flex justify-content-center align-items-center"
+      >
+        <Pagination
+          style={{ backrgound: "black !important" }}
+          className="pagination-bg-dark bg-dark"
+        >
+          {itemsU}
+        </Pagination>
+      </Container>
+      </>
+  </Tab>
+  <Tab className="text-white" eventKey="profile" title="All">
+  <>
      {/* <p className="fw-normal text-white">{timeZoneNow}</p> */}
      <Table className="w-100" responsive striped bordered hover variant="dark">
         <thead>
@@ -99,7 +180,14 @@ function BetTable() {
         >
           {items}
         </Pagination>
-      </Container></>}
+      </Container>
+      </>
+  </Tab>
+</Tabs>
+     
+     
+     
+      }
     </Container>
   );
 }
