@@ -9,7 +9,7 @@ function Bets() {
 
   React.useEffect(()=>{
     setLoading(true)
-      fetch(`${process.env.REACT_APP_BACKEND}/bets?populate=*&filters[userId][$eq]=${JSON.parse(localStorage.getItem("user"))}`)
+      fetch(`${process.env.REACT_APP_BACKEND}/bets?populate=*&filters[userId][$eq]=${localStorage.getItem("userId")}`)
       .then(res=>res.json())
       .then(res=>{
           console.log(res.data)

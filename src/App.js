@@ -46,13 +46,13 @@ function App() {
           {user ? <Redirect to="/" /> : <Register />}
         </Route> */}
         <Route path="/bets" exact render={(props) => {
-          let user = JSON.parse(localStorage.getItem("user"));
-          // if(user) {
+          let user = JSON.parse(localStorage.getItem("userId"));
+          if(user) {
             return <ComponentWithNavbar  component={Bets} {...props}/> 
-          // }else{
-          //   addToast("Please make a bet!", { appearance: "error" });
-          //  return <Redirect to="/" />
-          // }
+          }else{
+            addToast("Please make a bet!", { appearance: "error" });
+           return <Redirect to="/" />
+          }
         }}/>
         <Route path="/makebet/:id" exact render={(props) => {
           return (
