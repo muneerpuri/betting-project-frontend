@@ -14,11 +14,14 @@ function BetTable() {
       .then(res=>res.json())
       .then(res=>{
           console.log(res.data)
-        setContent(res.data.sort(function(a, b) {
-          var dateA = new Date(a.attributes.gameTime);
-          var dateB = new Date(b.attributes.gameTime);
-          return dateA - dateB
-      }))
+          let dateSortedArray = res.data.sort(function(a, b) {
+            var dateA = new Date(a.attributes.gameTime);
+            var dateB = new Date(b.attributes.gameTime);
+            return dateA && a.attributes.status === "UPCOMING" - dateB && b.attributes.status === "PROCESSED" 
+        })
+        let upcomingArr = dateSortedArray.filter((el)=>el.attributes.status === "UPCOMING")
+        let processedArr = dateSortedArray.filter((el)=>el.attributes.status === "PROCESSED")
+        setContent(upcomingArr.concat(processedArr))
         setLoading(false)})
       .catch(e=>{setLoading(false)})
 
