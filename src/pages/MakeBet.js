@@ -1,5 +1,5 @@
 import React from "react";
-import uuid from "react-uuid";
+// import uuid from "react-uuid";
 import { dropDownItems } from "../constants";
 import { useParams, useHistory } from "react-router";
 import { useToasts } from "react-toast-notifications";
@@ -21,12 +21,11 @@ function MakeBet() {
     if (!gameId) {
       history.push("/");
     } else {
-      let user = JSON.parse(localStorage.getItem("user"));
-      if (!user) {
-        localStorage.setItem("user", JSON.stringify(uuid()));
-      } else {
-        console.log(user);
-      }
+      // if (!user) {
+      //   localStorage.setItem("user", JSON.stringify(uuid()));
+      // } else {
+      //   console.log(user);
+      // }
     }
   }, [gameId, history]);
 
