@@ -6,6 +6,20 @@ function Bets() {
   const [content, setContent] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
 
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   let timeZoneNow = Intl.DateTimeFormat().resolvedOptions().timeZone;
   React.useEffect(() => {
     setLoading(true);
@@ -48,15 +62,23 @@ function Bets() {
           {content.length > 0 &&
             content.map((el) => {
               let date = new Date(el.attributes.game.data.attributes.gameTime);
+              let data = date.toLocaleString("en-US", {
+                timeZone: timeZoneNow,
+              });
+              let time = data.split(", ");
               //  let date= new Date(el.attributes.gameTime)
               return (
                 <tr className="pe-auto">
                   <td>{el.attributes.game.data.id}</td>
                   <td>{el.attributes.game.data.attributes.game}</td>
                   <td>
-                    {date.toLocaleString("en-US", {
-                      timeZone: timeZoneNow,
-                    })}
+                  {monthNames[date.getMonth()] +
+                              " " +
+                              date.getDate() +
+                              " " +
+                              date.getFullYear() +
+                              ", " +
+                              time[1]}
                   </td>
                   <td>{el.attributes.game.data.attributes.winningNo}</td>
                   <td>{el.attributes.betNo}</td>

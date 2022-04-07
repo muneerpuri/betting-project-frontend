@@ -27,33 +27,54 @@ function BetTable() {
           var dateA = new Date(a.attributes.gameTime);
           var dateB = new Date(b.attributes.gameTime);
           return (
-            dateA &&
-            a.attributes.status === "UPCOMING" - dateB &&
-            b.attributes.status === "PROCESSED"
+            dateA  - dateB
           );
         });
         let upcomingArr = dateSortedArray
-          .filter((e) => {
-            var inputDate = new Date(e.attributes.gameTime);
-
-            var todaysDate = new Date();
-
-            if (inputDate > todaysDate) {
-              return e;
+          .filter((el) => {
+            var today = new Date();
+            var Christmas = new Date(el.attributes.gameTime);
+            var diffMs = (Christmas - today); 
+            var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
+            console.log(diffHrs,"HOURS")
+            if(diffHrs >= 2){
+              return el
             }
           })
-          .filter((el) => el.attributes.status === "UPCOMING");
+          .filter((el) => el.attributes.status === "UPCOMING").sort(function (a, b) {
+            var dateA = new Date(a.attributes.gameTime);
+            var dateB = new Date(b.attributes.gameTime);
+            return (
+              dateA  - dateB
+            );
+          });
+          // upcomingArr.forEach((el)=>{
+          //   var today = new Date();
+          //   var Christmas = new Date(el.attributes.gameTime);
+          //   var diffMs = (Christmas - today); 
+          //   var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
+          //   console.log(diffHrs,"HOURS")
+
+          // })
+
         let processedArr = dateSortedArray
-          .filter((e) => {
-            var inputDate = new Date(e.attributes.gameTime);
-
-            var todaysDate = new Date();
-
-            if (inputDate > todaysDate) {
-              return e;
-            }
-          })
-          .filter((el) => el.attributes.status === "PROCESSED");
+        .filter((el) => {
+          var today = new Date();
+          var Christmas = new Date(el.attributes.gameTime);
+          var diffMs = (Christmas - today); 
+          var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
+          console.log(diffHrs,"HOURS")
+          if(diffHrs >= 2){
+            return el
+          }
+        })
+          .filter((el) => el.attributes.status === "PROCESSED").sort(function (a, b) {
+            var dateA = new Date(a.attributes.gameTime);
+            var dateB = new Date(b.attributes.gameTime);
+            return (
+              dateA  - dateB
+            );
+          });
         setUpcomingData(upcomingArr);
         setContent(upcomingArr.concat(processedArr));
         setLoading(false);
@@ -86,17 +107,54 @@ function BetTable() {
           var dateA = new Date(a.attributes.gameTime);
           var dateB = new Date(b.attributes.gameTime);
           return (
-            dateA &&
-            a.attributes.status === "UPCOMING" - dateB &&
-            b.attributes.status === "PROCESSED"
+            dateA  - dateB
           );
         });
-        let upcomingArr = dateSortedArray.filter(
-          (el) => el.attributes.status === "UPCOMING"
-        );
-        let processedArr = dateSortedArray.filter(
-          (el) => el.attributes.status === "PROCESSED"
-        );
+        let upcomingArr = dateSortedArray
+          .filter((el) => {
+            var today = new Date();
+            var Christmas = new Date(el.attributes.gameTime);
+            var diffMs = (Christmas - today); 
+            var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
+            console.log(diffHrs,"HOURS")
+            if(diffHrs >= 2){
+              return el
+            }
+          })
+          .filter((el) => el.attributes.status === "UPCOMING").sort(function (a, b) {
+            var dateA = new Date(a.attributes.gameTime);
+            var dateB = new Date(b.attributes.gameTime);
+            return (
+              dateA  - dateB
+            );
+          });
+          // upcomingArr.forEach((el)=>{
+          //   var today = new Date();
+          //   var Christmas = new Date(el.attributes.gameTime);
+          //   var diffMs = (Christmas - today); 
+          //   var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
+          //   console.log(diffHrs,"HOURS")
+
+          // })
+
+        let processedArr = dateSortedArray
+        .filter((el) => {
+          var today = new Date();
+          var Christmas = new Date(el.attributes.gameTime);
+          var diffMs = (Christmas - today); 
+          var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
+          console.log(diffHrs,"HOURS")
+          if(diffHrs >= 2){
+            return el
+          }
+        })
+          .filter((el) => el.attributes.status === "PROCESSED").sort(function (a, b) {
+            var dateA = new Date(a.attributes.gameTime);
+            var dateB = new Date(b.attributes.gameTime);
+            return (
+              dateA  - dateB
+            );
+          });
         setUpcomingData(upcomingArr);
         setContent(upcomingArr.concat(processedArr));
         setLoading(false);
