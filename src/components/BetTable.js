@@ -29,6 +29,27 @@ function BetTable() {
       .catch(e=>{setLoading(false)})
 
   },[])
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+  setInterval(()=>{
+    setLoading(true)
+      fetch(process.env.REACT_APP_BACKEND+"/games")
+      .then(res=>res.json())
+      .then(res=>{
+          console.log(res.data)
+          let dateSortedArray = res.data.sort(function(a, b) {
+            var dateA = new Date(a.attributes.gameTime);
+            var dateB = new Date(b.attributes.gameTime);
+            return dateA && a.attributes.status === "UPCOMING" - dateB && b.attributes.status === "PROCESSED" 
+        })
+        let upcomingArr = dateSortedArray.filter((el)=>el.attributes.status === "UPCOMING")
+        let processedArr = dateSortedArray.filter((el)=>el.attributes.status === "PROCESSED")
+        setUpcomingData(upcomingArr)
+        setContent(upcomingArr.concat(processedArr))
+        setLoading(false)})
+      .catch(e=>{setLoading(false)})
+  },180000)
   const indexOfLastTodo = activePageTab * itemsPerPage;
     const indexOfFirstTodo = indexOfLastTodo - itemsPerPage;
     const activeData = content.slice(indexOfFirstTodo, indexOfLastTodo);
@@ -91,6 +112,10 @@ function BetTable() {
          
          activeDataU.map((el,index)=>{
            let date= new Date(el.attributes.gameTime)
+           let data = date.toLocaleString("en-US", {
+            timeZone: timeZoneNow 
+        })
+        let time = data.split(', ')
         //    console.log(date)
           
         //    let intlDateObj = new Intl.DateTimeFormat('en-US', {
@@ -103,9 +128,7 @@ function BetTable() {
             <td>{el.attributes.description}</td>
             <td>{el.attributes.betType}</td>
             <td>{el.attributes.amount}</td>
-            <td> { date.toLocaleString("en-US", {
-            timeZone: timeZoneNow 
-        })}
+            <td> {monthNames[date.getMonth()]+" "+ date.getDate() +" "+ date.getFullYear()+ ", " +time[1]}
             </td>
             <td className={el.attributes.status==="UPCOMING"?'text-warning':el.attributes.status==="PROCESSED"?'text-success':el.attributes.status==="LOSS"?'text-info':""}>{el.attributes.status}</td>
           </tr> 
@@ -147,6 +170,10 @@ function BetTable() {
          
          activeData.map((el,index)=>{
            let date= new Date(el.attributes.gameTime)
+           let data = date.toLocaleString("en-US", {
+            timeZone: timeZoneNow 
+        })
+        let time = data.split(', ')
         //    console.log(date)
           
         //    let intlDateObj = new Intl.DateTimeFormat('en-US', {
@@ -159,9 +186,7 @@ function BetTable() {
             <td>{el.attributes.description}</td>
             <td>{el.attributes.betType}</td>
             <td>{el.attributes.amount}</td>
-            <td> { date.toLocaleString("en-US", {
-            timeZone: timeZoneNow 
-        })}
+            <td> {monthNames[date.getMonth()]+" "+ date.getDate() +" "+ date.getFullYear()+ ", " +time[1]}
             </td>
             <td className={el.attributes.status==="UPCOMING"?'text-warning':el.attributes.status==="PROCESSED"?'text-success':el.attributes.status==="LOSS"?'text-info':""}>{el.attributes.status}</td>
           </tr> 
