@@ -162,7 +162,7 @@ function BetTable() {
       .catch((e) => {
         // setLoading(false);
       });
-  }, 180000);
+  }, process.env.REACT_APP_REFRESH_RATE);
   const indexOfLastTodo = activePageTab * itemsPerPage;
   const indexOfFirstTodo = indexOfLastTodo - itemsPerPage;
   const activeData = content.slice(indexOfFirstTodo, indexOfLastTodo);
@@ -240,7 +240,6 @@ function BetTable() {
                     <th>BET TYPE</th>
                     <th>AMOUNT</th>
                     <th>TIME</th>
-                    <th>STATUS</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -277,7 +276,7 @@ function BetTable() {
                               ", " +
                               time[1]}
                           </td>
-                          <td
+                          {/* <td
                             className={
                               el.attributes.status === "UPCOMING"
                                 ? "text-warning"
@@ -289,7 +288,7 @@ function BetTable() {
                             }
                           >
                             {el.attributes.status}
-                          </td>
+                          </td> */}
                         </tr>
                       );
                     })}
@@ -326,6 +325,7 @@ function BetTable() {
                     <th>DESCRIPTION</th>
                     <th>BET TYPE</th>
                     <th>AMOUNT</th>
+                    <th>WINNING NO.</th>
                     <th>TIME</th>
                     <th>STATUS</th>
                   </tr>
@@ -354,6 +354,7 @@ function BetTable() {
                           <td>{el.attributes.description}</td>
                           <td>{el.attributes.betType}</td>
                           <td>{el.attributes.amount}</td>
+                          <td>{el.attributes.winningNo}</td>
                           <td>
                             {" "}
                             {monthNames[date.getMonth()] +
