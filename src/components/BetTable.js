@@ -14,6 +14,7 @@ function BetTable() {
   const [activePageTabUpcoming, setActivePageTabUpcoming] = React.useState(1);
   const [content, setContent] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const [upcomingShowData, setUpcomingShowData] = React.useState([]);
   const [upcomingData, setUpcomingData] = React.useState([]);
   const itemsPerPage = 10;
   let timeZoneNow = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -30,17 +31,33 @@ function BetTable() {
             dateA  - dateB
           );
         });
+        setUpcomingShowData(dateSortedArray .filter((el) => {
+          var today = new Date();
+          var Christmas = new Date(el.attributes.gameTime);
+          var diffMs = (Christmas - today); 
+          var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
+          console.log(diffHrs,"HOURS")
+          if(diffHrs >= 2){
+            return el
+          }
+        }).filter((el) => el.attributes.status === "UPCOMING").sort(function (a, b) {
+          var dateA = new Date(a.attributes.gameTime);
+          var dateB = new Date(b.attributes.gameTime);
+          return (
+            dateA  - dateB
+          );
+        }))
         let upcomingArr = dateSortedArray
-          .filter((el) => {
-            var today = new Date();
-            var Christmas = new Date(el.attributes.gameTime);
-            var diffMs = (Christmas - today); 
-            var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
-            console.log(diffHrs,"HOURS")
-            if(diffHrs >= 2){
-              return el
-            }
-          })
+          // .filter((el) => {
+          //   var today = new Date();
+          //   var Christmas = new Date(el.attributes.gameTime);
+          //   var diffMs = (Christmas - today); 
+          //   var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
+          //   console.log(diffHrs,"HOURS")
+          //   if(diffHrs >= 2){
+          //     return el
+          //   }
+          // })
           .filter((el) => el.attributes.status === "UPCOMING").sort(function (a, b) {
             var dateA = new Date(a.attributes.gameTime);
             var dateB = new Date(b.attributes.gameTime);
@@ -58,16 +75,16 @@ function BetTable() {
           // })
 
         let processedArr = dateSortedArray
-        .filter((el) => {
-          var today = new Date();
-          var Christmas = new Date(el.attributes.gameTime);
-          var diffMs = (Christmas - today); 
-          var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
-          console.log(diffHrs,"HOURS")
-          if(diffHrs >= 2){
-            return el
-          }
-        })
+        // .filter((el) => {
+        //   var today = new Date();
+        //   var Christmas = new Date(el.attributes.gameTime);
+        //   var diffMs = (Christmas - today); 
+        //   var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
+        //   console.log(diffHrs,"HOURS")
+        //   if(diffHrs >= 2){
+        //     return el
+        //   }
+        // })
           .filter((el) => el.attributes.status === "PROCESSED").sort(function (a, b) {
             var dateA = new Date(a.attributes.gameTime);
             var dateB = new Date(b.attributes.gameTime);
@@ -98,6 +115,7 @@ function BetTable() {
     "December",
   ];
   setInterval(() => {
+   
     // setLoading(true);
     fetch(process.env.REACT_APP_BACKEND + "/games")
       .then((res) => res.json())
@@ -110,17 +128,33 @@ function BetTable() {
             dateA  - dateB
           );
         });
+        setUpcomingShowData(dateSortedArray .filter((el) => {
+          var today = new Date();
+          var Christmas = new Date(el.attributes.gameTime);
+          var diffMs = (Christmas - today); 
+          var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
+          console.log(diffHrs,"HOURS")
+          if(diffHrs >= 2){
+            return el
+          }
+        }).filter((el) => el.attributes.status === "UPCOMING").sort(function (a, b) {
+          var dateA = new Date(a.attributes.gameTime);
+          var dateB = new Date(b.attributes.gameTime);
+          return (
+            dateA  - dateB
+          );
+        }))
         let upcomingArr = dateSortedArray
-          .filter((el) => {
-            var today = new Date();
-            var Christmas = new Date(el.attributes.gameTime);
-            var diffMs = (Christmas - today); 
-            var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
-            console.log(diffHrs,"HOURS")
-            if(diffHrs >= 2){
-              return el
-            }
-          })
+          // .filter((el) => {
+          //   var today = new Date();
+          //   var Christmas = new Date(el.attributes.gameTime);
+          //   var diffMs = (Christmas - today); 
+          //   var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
+          //   console.log(diffHrs,"HOURS")
+          //   if(diffHrs >= 2){
+          //     return el
+          //   }
+          // })
           .filter((el) => el.attributes.status === "UPCOMING").sort(function (a, b) {
             var dateA = new Date(a.attributes.gameTime);
             var dateB = new Date(b.attributes.gameTime);
@@ -138,16 +172,16 @@ function BetTable() {
           // })
 
         let processedArr = dateSortedArray
-        .filter((el) => {
-          var today = new Date();
-          var Christmas = new Date(el.attributes.gameTime);
-          var diffMs = (Christmas - today); 
-          var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
-          console.log(diffHrs,"HOURS")
-          if(diffHrs >= 2){
-            return el
-          }
-        })
+        // .filter((el) => {
+        //   var today = new Date();
+        //   var Christmas = new Date(el.attributes.gameTime);
+        //   var diffMs = (Christmas - today); 
+        //   var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
+        //   console.log(diffHrs,"HOURS")
+        //   if(diffHrs >= 2){
+        //     return el
+        //   }
+        // })
           .filter((el) => el.attributes.status === "PROCESSED").sort(function (a, b) {
             var dateA = new Date(a.attributes.gameTime);
             var dateB = new Date(b.attributes.gameTime);
@@ -169,12 +203,12 @@ function BetTable() {
 
   const indexOfLastTodoU = activePageTabUpcoming * itemsPerPage;
   const indexOfFirstTodoU = indexOfLastTodoU - itemsPerPage;
-  const activeDataU = upcomingData.slice(indexOfFirstTodoU, indexOfLastTodoU);
+  const activeDataU = upcomingShowData.slice(indexOfFirstTodoU, indexOfLastTodoU);
 
   let itemsU = [];
   for (
     let number = 1;
-    number <= Math.ceil(upcomingData.length / itemsPerPage);
+    number <= Math.ceil(upcomingShowData.length / itemsPerPage);
     number++
   ) {
     itemsU.push(
