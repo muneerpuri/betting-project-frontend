@@ -61,7 +61,7 @@ function MakeBet() {
           var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
           console.log(diffHrs,"HOURS")
          
-          if (!res.data || diffHrs < 2) {
+          if (!res.data || diffHrs < 2 || res?.data?.attributes?.status === "PROCESSED") {
             history.push("/");
           } else {
             setGameData(res.data);
