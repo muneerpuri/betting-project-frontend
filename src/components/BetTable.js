@@ -98,7 +98,7 @@ function BetTable() {
     "December",
   ];
   setInterval(() => {
-    setLoading(true);
+    // setLoading(true);
     fetch(process.env.REACT_APP_BACKEND + "/games")
       .then((res) => res.json())
       .then((res) => {
@@ -157,10 +157,10 @@ function BetTable() {
           });
         setUpcomingData(upcomingArr);
         setContent(upcomingArr.concat(processedArr));
-        setLoading(false);
+        // setLoading(false);
       })
       .catch((e) => {
-        setLoading(false);
+        // setLoading(false);
       });
   }, 180000);
   const indexOfLastTodo = activePageTab * itemsPerPage;

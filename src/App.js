@@ -55,9 +55,12 @@ function App() {
           }
         }}/>
         <Route path="/makebet/:id" exact render={(props) => {
-          return (
-            <ComponentWithNavbar  component={MakeBet} {...props}/> 
-          );
+           let user = localStorage.getItem("userId");
+           if(user) {
+          return  <ComponentWithNavbar  component={MakeBet} {...props}/> 
+        }else{
+         return <Redirect to="/" />
+        }
         }}/>
         {/* <Route path="/profile/:username" render={(props) => {
           return (

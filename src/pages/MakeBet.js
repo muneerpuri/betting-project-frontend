@@ -54,7 +54,14 @@ function MakeBet() {
       fetch(`${process.env.REACT_APP_BACKEND}/games/${gameId}`)
         .then((res) => res.json())
         .then((res) => {
-          if (!res.data) {
+          console.log(res.data)
+          var today = new Date();
+          var Christmas = new Date(res?.data?.attributes?.gameTime);
+          var diffMs = (Christmas - today); 
+          var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
+          console.log(diffHrs,"HOURS")
+         
+          if (!res.data || diffHrs < 2) {
             history.push("/");
           } else {
             setGameData(res.data);
